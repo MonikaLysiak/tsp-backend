@@ -1,0 +1,6 @@
+@tsp_backend_HostAddress = http://localhost:5227
+
+GET {{tsp_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
