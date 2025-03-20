@@ -1,3 +1,4 @@
+using System.Reflection;
 using tsp_backend.Services;
 using TspSolver.Services.Interfaces;
 
@@ -6,7 +7,19 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new() 
+    { 
+        Title = "TSP Solver API",
+        Version = "v1",
+        Description = "API for solving the Traveling Salesman Problem using genetic algorithm",
+    });
+    
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+
+});
 
 builder.Services.AddCors(options =>
 {
