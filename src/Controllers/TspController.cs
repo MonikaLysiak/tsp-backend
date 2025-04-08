@@ -37,18 +37,21 @@ public class TspController : ControllerBase
     /// }
     /// </remarks>
     [HttpPost("solve")]
-    public async Task<IActionResult> SolveTsp([FromBody] TspRequest request)
+    public async Task<IActionResult> SolveTsp([FromForm] TspRequest request)
     {
+        if (request.File == null || request.File.Length == 0)
+        return BadRequest("No file uploaded.");
+
         var (bestRoute, bestDistance) = await _solverService.SolveTspAsync(
-            request.FilePath,
-            request.PopulationSize,
-            request.Generations,
-            request.CrossoverProbability,
-            request.MutationChance,
-            request.TournamentSize,
-            request.TournamentMethod,
-            request.CrossoverMethod,
-            request.MaxDurationSeconds
+            request.File,
+            request.GeneticParameters.PopulationSize,
+            request.GeneticParameters.Generations,
+            request.GeneticParameters.CrossoverProbability,
+            request.GeneticParameters.MutationChance,
+            request.GeneticParameters.TournamentSize,
+            request.GeneticParameters.TournamentMethod,
+            request.GeneticParameters.CrossoverMethod,
+            request.GeneticParameters.MaxDurationSeconds
         );
 
         return Ok(new { BestRoute = bestRoute, Distance = bestDistance });
