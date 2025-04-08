@@ -11,7 +11,7 @@ public class TspSolverService : ITspSolverService
     }
 
     public async Task<(List<int> BestRoute, double BestDistance)> SolveTspAsync(
-        string filePath, int populationSize, int generations, 
+        IFormFile file, int populationSize, int generations, 
         double crossoverProbability, double mutationChance, 
         int tournamentSize, string tournamentMethod, string crossoverMethod, 
         int? maxDurationSeconds)
@@ -22,10 +22,10 @@ public class TspSolverService : ITspSolverService
             Enum.Parse<Parameters.TournamentMethod>(tournamentMethod, true),
             Enum.Parse<Parameters.CrossoverMethod>(crossoverMethod, true)
         );
+        using var stream = file.OpenReadStream();
 
-        var solver = new MainGP(filePath, parameters);
+        var solver = new MainGP(stream, parameters);
 
-        // Subscribe to updates from the genetic solver
         solver.OnBestSolutionUpdated += async (bestRoute, bestDistance) =>
         {
             await _hubContext.Clients.All.SendAsync("ReceiveTspUpdate", bestRoute, bestDistance);
