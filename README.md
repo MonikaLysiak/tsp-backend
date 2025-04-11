@@ -36,8 +36,8 @@ This endpoint accepts a `multipart/form-data` request containing:
 | `CrossoverMethod`      | string  | Crossover strategy (e.g., `TWO_POINT`) |
 | `MaxDurationSeconds`   | int?    | Optional max computation time in seconds |
 
-> See below Swagger screenshot with parameter view:  
-![image](https://github.com/user-attachments/assets/9e4612ac-6865-4699-a5ef-fb172996a27e)
+> See below Swagger screenshot with parameter view:
+<img src="https://github.com/user-attachments/assets/9e4612ac-6865-4699-a5ef-fb172996a27e" width="500">
 
 ### Response
 
@@ -45,8 +45,8 @@ Returns:
 
 ```json
 {
-  "bestRoute": [0, 3, 2, 1, 4],
-  "distance": 123.45
+  "bestRoute": [ 4, 41, 23, 9, 44, 34, 3, 25, 1, 28, 33, 40, 15, 21, 2, 39, 0, 7, 8, 37, 30, 43, 17, 6, 27, 5, 36, 18, 26, 16, 42, 29, 35, 45, 32, 14, 11, 19, 46, 10, 22, 13, 24, 12, 20, 31, 38, 47],
+  "distance": 10658
 }
 ```
 
@@ -63,27 +63,6 @@ Use this if the user decides to cancel the computation early. Since the genetic 
 
 Example of early stop with worse result:  
 ![image](https://github.com/user-attachments/assets/36d9be43-6c21-48bc-a36f-f064d231e9f0)
-
----
-
-## Genetic Algorithm
-
-The backend leverages a **custom genetic algorithm** implementation with configurable parameters. Some defaults include:
-
-```csharp
-new GeneticParameters {
-  PopulationSize = 80000,
-  MutationRate = 0.05,
-  Generations = 100,
-  CrossoverProbability = 0.9,
-  MutationChance = 0.05,
-  TournamentSize = 5,
-  CrossoverMethod = "TWO_POINT",
-  TournamentMethod = "BEST_RANDOM"
-}
-```
-
-These parameters can be customized for balancing performance, speed, and solution quality.
 
 ---
 
